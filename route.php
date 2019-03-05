@@ -17,7 +17,7 @@ Route::post('/uye/giris', 'Web/WebPostController@login');
 
 // Yetkilendirme kullanımı (Session)
 // 3. parametre olan "uye" Session::put("uye", true) ile login işlemi anında tanımlanır
-Route::post('/uye/profil', 'Web/WebGetController@profil', "uye");
+Route::get('/uye/profil', 'Web/WebGetController@profil', "uye");
 
 
 
