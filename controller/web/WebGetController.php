@@ -9,5 +9,10 @@ class WebGetController extends WebController
     $this->view('web.index');
   }
 
+  public function profil()
+  {
+    $this->view('web.profil');
+  }
+
 
 }

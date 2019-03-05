@@ -1,19 +1,28 @@
 <?php
 
 /**
-* 
-* 
+*
+*
 */
 
-Route::run('/', 'Web/WebGetController@index');
+Route::get('/', 'Web/WebGetController@index');
 
 //Bir diğer kullanımı
-/*Route::run('/', function () {
+/*Route::get('/', function () {
     echo 'merhaba dünya!';
 });*/
 
-Route::run('/admin', 'Admin/AdminGetController@index');
+//Post işlemini tanımlama
+Route::post('/uye/giris', 'Web/WebPostController@login');
+
+// Yetkilendirme kullanımı (Session)
+// 3. parametre olan "uye" Session::put("uye", true) ile login işlemi anında tanımlanır
+Route::post('/uye/profil', 'Web/WebGetController@profil', "uye");
+
+
+
+Route::get('/admin', 'Admin/AdminGetController@index');
 
 //Parametreler ile çalışma
-//Route::run('/admin/{url}', 'Admin/AdminGetController@index');
-//Route::run('/admin/{id}', 'Admin/AdminGetController@index');
+//Route::get('/admin/{url}', 'Admin/AdminGetController@index');
+//Route::get('/admin/{id}', 'Admin/AdminGetController@index');
