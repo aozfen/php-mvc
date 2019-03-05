@@ -1,9 +1,10 @@
 <?php
 
 class Config {
-    static $URL = 'http://localhost/php-mvc';
+    static $URL = 'http://localhost/php-mvc/';
     static $NOT_AUTH_REDIRECT = [
-      'admin' => 'admin/giris'
+      'admin' => 'admin/giris',
+      'uye' => 'uye/giris'
     ];
     static $DB_SERVER    = 'localhost';
     static $DB_NAME      = 'db_name';
