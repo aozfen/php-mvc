@@ -1,10 +1,8 @@
 <?php
 date_default_timezone_set('Europe/Istanbul');
 
-
-require '/App/Autoload.php';
-require '/Helper/Functions.php';
-new Autoload;
+require 'app/autoload.php';
+/*require '/Helper/Functions.php';*/
 
 require 'route.php';
 

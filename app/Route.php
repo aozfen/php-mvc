@@ -1,4 +1,5 @@
 <?php
+namespace App;
 
 class Route
 {
@@ -69,18 +70,9 @@ class Route
             if (is_callable($callback)) {
                 call_user_func_array($callback, $parameters);
             } else {
-
                 $controller = explode('@', $callback);
-                $className = explode('/', $controller[0]);
-                $className = end($className);
-                $controllerFile = realpath('.') . '/controller/' . $controller[0] . '.php';
-
-                if (file_exists($controllerFile)) {
-                    //print_r($parameters);
-                    require $controllerFile;
-                    call_user_func_array([new $className, $controller[1]], $parameters);
-                }
-
+                $classname = 'App\Controller\\' . $controller[0];  
+                call_user_func_array([new $classname, $controller[1]], $parameters);
             }
 
         }

@@ -1,43 +1,19 @@
 <?php
+spl_autoload_register(function($class){
 
-class Autoload
-{
+  $prefix = 'App\\';
+  $base_dir = realpath('.') . '/app/';
 
-  public function __construct() {
-    spl_autoload_register('Autoload::autoloadEngine');
-    spl_autoload_register('Autoload::autoloadControllers');
-    
+  $len = strlen($prefix);
+  if (strncmp($prefix, $class, $len) !== 0){
+      return;
   }
 
-  public static function autoloadEngine($className)
-  {
-    $className  = str_replace("\\", DIRECTORY_SEPARATOR, $className);
-    $classPath  = __DIR__.DIRECTORY_SEPARATOR.$className . ".php";
-    if (is_readable($classPath)) {
-        require $classPath;
-    }
-  }
+  $relative_class = substr($class, $len);
 
-  public static function autoloadControllers($className)
-  {
-    $className  = str_replace("\\", DIRECTORY_SEPARATOR, $className);
+  $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
 
-    $path = realpath('.') . DIRECTORY_SEPARATOR . 'controller/';
-    if(is_dir($path)){
-      if($handle = opendir($path)){
-        while (($file = readdir($handle)) !== false) {
-          if(is_dir($path . $file) && $file != '.' && $file != '..') {
-              $classPath  = realpath('.').DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.$file.DIRECTORY_SEPARATOR.$className . ".php";
-              if (is_readable($classPath)) {
-                require $classPath;
-              }
-          }
-        }
-        closedir($handle);
-      }
-    }
+  if (file_exists($file))
+      require $file;
 
-    
-  }
-
-}
+});

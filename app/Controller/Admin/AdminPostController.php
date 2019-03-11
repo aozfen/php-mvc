@@ -1,7 +1,8 @@
 <?php
+namespace App\Controller\Admin;
 
 
-class WebPostController extends Controller
+class AdminPostController extends AdminController
 {
 
   public function join()

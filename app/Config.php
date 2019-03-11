@@ -1,4 +1,5 @@
 <?php
+namespace App;
 
 class Config {
     static $URL = 'http://localhost/php-mvc/';
