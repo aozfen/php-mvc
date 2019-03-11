@@ -1,10 +1,9 @@
 <?php
-/**
-* Route kısmında direk buradan da karşılık fonksiyon yazılabilir ancak kod okunurluğu için gelen istekleri
-* WebGetController ve WebPostController olarak ikiye böldüm. Bu şekilde her iki sınıfa da ortak değişken taşınabilir.
-*/
+namespace App\Controller\Admin;
 
-class WebController extends Controller
+use App\Controller;
+
+class AdminController extends Controller
 {
     public $data;
 
