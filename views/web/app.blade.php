@@ -11,6 +11,10 @@
 <body>
   @yield('content')
 
+  <script>
+    var base_url = '<?php echo base_url(); ?>'
+  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   @yield('js')
 
 </body>

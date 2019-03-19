@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller\Web;
 
+use App\Response;
+use App\Model\User;
 
 class WebPostController extends WebController
 {
@@ -12,7 +14,9 @@ class WebPostController extends WebController
 
   public function login()
   {
-    #code...
+    $userModel = new User;
+    $result = $userModel->login();
+    Response::send($result);
   }
 
 

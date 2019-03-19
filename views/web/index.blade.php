@@ -4,7 +4,8 @@
 
 @section('content')
 <div>
- Dinamik Master Page (Web Sayfası)
+Dinamik Master Page (Web Sayfası)
+ <a href="uye/giris">Giriş Yap</a>
 </div>
 @endsection
 

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Web;
 
+use App\Session;
 
 class WebGetController extends WebController
 {
@@ -17,7 +18,9 @@ class WebGetController extends WebController
 
   public function giris()
   {
-    $this->view('web.uye.giris');
+    Session::init();
+    if(!Session::exists('uye'))
+      $this->view('web.uye.giris');
   }
 
 }
