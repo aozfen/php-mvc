@@ -4,8 +4,24 @@ namespace App;
 class Route
 {
 
+  public static function __callStatic($nameOfFunction, $arguments)
+  {
+    if(is_array($arguments[1])) {
+      $middle = $arguments[1];
+      foreach ($middle as $key => $value) {
+        $classname = 'App\Middleware\\'. $key;
+        call_user_func_array([new $classname, $value], []);
+      }
+      if($nameOfFunction == 'get') @self::_get($arguments[0], $arguments[2]);
+      else if($nameOfFunction == 'post') @self::_post($arguments[0], $arguments[2]);
 
-    public static function parse_url()
+    }else{
+      if($nameOfFunction == 'get') @self::_get($arguments[0], $arguments[1]);
+      else if($nameOfFunction == 'post') @self::_post($arguments[0], $arguments[1]);
+    }
+  }
+
+    static function parse_url()
     {
         $dirname = dirname($_SERVER['SCRIPT_NAME']);
         $dirname = $dirname != '/' ? $dirname : null;
@@ -14,7 +30,7 @@ class Route
         return self::parse_args($request_uri);
     }
 
-    private static function parse_args($request_uri)
+    static function parse_args($request_uri)
     {
         $_args = NULL;
 
@@ -38,19 +54,19 @@ class Route
         ];
     }
 
-    public static function get($url, $callback, $auth = '')
+    static function _get($url, $callback)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
-            self::run($url, $callback, $auth);
+            return self::run($url, $callback);
     }
 
-    public static function post($url, $callback, $auth = '')
+    static function _post($url, $callback)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
-            self::run($url, $callback, $auth);
+            return self::run($url, $callback);
     }
 
-    private static function run($url, $callback, $auth)
+    static function run($url, $callback)
     {
         $patterns = [
             '{url}' => '([0-9a-zA-Z-_]+)',
@@ -65,22 +81,16 @@ class Route
 
             if($request_uri['args'] !== NULL) $parameters = array_merge($parameters, $request_uri['args']);
 
-            self::authenticated($auth);
-
             if (is_callable($callback)) {
                 call_user_func_array($callback, $parameters);
             } else {
                 $controller = explode('@', $callback);
-                $classname = 'App\Controller\\' . $controller[0];  
+                $classname = 'App\Controller\\' . $controller[0];
                 call_user_func_array([new $classname, $controller[1]], $parameters);
             }
 
         }
 
-    }
-    private static function authenticated($key)
-    {
-        if(!empty($key)) Auth::check($key);
     }
 
     /** TODO: Router group */
