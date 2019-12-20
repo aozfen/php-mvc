@@ -18,4 +18,4 @@ spl_autoload_register(function($class){
 
 });
 
-require '/Helper/Functions.php';
+require realpath('.') . '/app/Helper/Functions.php';
