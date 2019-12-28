@@ -6,7 +6,11 @@ class Route
 
   public static function __callStatic($nameOfFunction, $arguments)
   {
-    if(is_array($arguments[1])) {
+    $exp = explode("/", $_SERVER["REQUEST_URI"], 3);
+    $exp2 = explode("?", $exp[2]);
+    $url = substr($arguments[0], 1 , strlen($arguments[0]) );
+
+    if(is_array($arguments[1]) && $exp2[0] == $url) {
       $middle = $arguments[1];
       foreach ($middle as $key => $value) {
         $classname = 'App\Middleware\\'. $key;
@@ -88,6 +92,7 @@ class Route
                 $classname = 'App\Controller\\' . $controller[0];
                 call_user_func_array([new $classname, $controller[1]], $parameters);
             }
+            exit;
 
         }
 
