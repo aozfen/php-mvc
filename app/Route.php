@@ -4,26 +4,35 @@ namespace App;
 class Route
 {
 
-  public static function __callStatic($nameOfFunction, $arguments)
-  {
-    $exp = explode("/", $_SERVER["REQUEST_URI"], 3);
-    $exp2 = explode("?", $exp[2]);
-    $url = substr($arguments[0], 1 , strlen($arguments[0]) );
+    public static function __callStatic($nameOfFunction, $arguments)
+    {
+      if(is_array($arguments[1]) && self::is_middleware($arguments[0])) {
+        $middle = $arguments[1];
+        foreach ($middle as $key => $value) {
+          $classname = 'App\Middleware\\'. $key;
+          call_user_func_array([new $classname, $value], []);
+        }
+        if($nameOfFunction == 'get') @self::_get($arguments[0], $arguments[2]);
+        else if($nameOfFunction == 'post') @self::_post($arguments[0], $arguments[2]);
 
-    if(is_array($arguments[1]) && $exp2[0] == $url) {
-      $middle = $arguments[1];
-      foreach ($middle as $key => $value) {
-        $classname = 'App\Middleware\\'. $key;
-        call_user_func_array([new $classname, $value], []);
+      }else{
+        if($nameOfFunction == 'get') @self::_get($arguments[0], $arguments[1]);
+        else if($nameOfFunction == 'post') @self::_post($arguments[0], $arguments[1]);
       }
-      if($nameOfFunction == 'get') @self::_get($arguments[0], $arguments[2]);
-      else if($nameOfFunction == 'post') @self::_post($arguments[0], $arguments[2]);
-
-    }else{
-      if($nameOfFunction == 'get') @self::_get($arguments[0], $arguments[1]);
-      else if($nameOfFunction == 'post') @self::_post($arguments[0], $arguments[1]);
     }
-  }
+
+    static function is_middleware($arg_0){
+      if($_SERVER['HTTP_HOST'] == "localhost"){
+        $exp = explode("/", $_SERVER["REQUEST_URI"], 3);
+        $exp2 = explode("?", $exp[2]);
+      }else{
+        $cuteUrl = "/" . substr($_SERVER["SCRIPT_URI"], strlen(Config::$URL), strlen($_SERVER["SCRIPT_URI"]));
+        $exp = explode("/", $cuteUrl, 3);
+        $exp2 = explode("?", $exp[1]);
+      }
+      $url = substr($arg_0, 1 , strlen($arg_0) );
+      return ($exp2[0] == $url);
+    }
 
     static function parse_url()
     {
