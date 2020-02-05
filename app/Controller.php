@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use eftec\bladeone\BladeOne;
+
 class Controller
 {
     static $lib;
@@ -8,8 +10,9 @@ class Controller
     public static function view($name, $data = [], $oldData = [])
     {
         self::lib('blade');
-        $blade = new \eftec\bladeone\BladeOne(null,null,\eftec\bladeone\BladeOne::MODE_DEBUG);
-        $blade->setBaseUrl(Config::$URL); 
+        $cache = realpath('.') . '/cache';
+        $blade = new \eftec\bladeone\BladeOne(null,$cache,\eftec\bladeone\BladeOne::MODE_AUTO);
+        $blade->setBaseUrl(Config::$URL);
         if(count($oldData) > 0)
             $data = array_merge($data, (array)$oldData);
 
@@ -25,8 +28,16 @@ class Controller
 
     public static function lib($name)
     {
-        $filePath = realpath('.') . '/libraries/' . Config::$LIBRARIES[$name];
+      $files = Config::$LIBRARIES[$name];
+      if(is_array($files)){
+        for ($i=0; $i < count($files); $i++) {
+          $filePath = realpath('.') . '/libraries/' . $name . '/' . $files[$i];
+          require $filePath;
+        }
+      }else{
+        $filePath = realpath('.') . '/libraries/' . $files;
         require $filePath;
+      }
     }
 
 }
