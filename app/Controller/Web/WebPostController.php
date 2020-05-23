@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Web;
 
+use App\Input;
 use App\Response;
 use App\Model\User;
 
@@ -15,8 +16,9 @@ class WebPostController extends WebController
   public function login()
   {
     $userModel = new User;
-    $result = $userModel->login();
-    Response::send($result);
+    $userModel->username = Input::post("username");
+    $userModel->password = Input::post("password");
+    Response::send($userModel->login());
   }
 
 

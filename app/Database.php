@@ -2,19 +2,20 @@
 namespace App;
 
 use Medoo\Medoo;
+use App\Config;
 
 class Database
 {
 
-    protected $db;
+    static $run;
 
     public function __construct()
     {
       $controller = new Controller;
       if (!class_exists('Medoo\Raw'))  //Daha önce class dahil edildiği için bir daha dahil edilince hata veriyordu bu şekilde çözüldü
        $controller->lib('medoo');
-      
-      $this->db = new Medoo([
+
+      self::$run = new Medoo([
         'database_type' => 'mysql',
         'database_name' => Config::$DB_NAME,
         'server'        => Config::$DB_SERVER,
@@ -23,7 +24,7 @@ class Database
         'charset'       => 'utf8',
         'port'          => 3306
       ]);
-       
+
     }
 
 }
