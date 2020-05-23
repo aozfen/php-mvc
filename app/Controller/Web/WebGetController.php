@@ -2,6 +2,7 @@
 namespace App\Controller\Web;
 
 use App\Session;
+use App\Redirect;
 
 class WebGetController extends WebController
 {
@@ -21,6 +22,8 @@ class WebGetController extends WebController
     Session::init();
     if(!Session::exists('uye'))
       $this->view('web.uye.giris');
+    else
+      Redirect::to("");
   }
 
 }

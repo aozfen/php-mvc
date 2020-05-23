@@ -14,13 +14,15 @@ class Redirect {
      * @return void
      */
     public static function to($location = "") {
-        if ($location) {
+        if (!empty($location)) {
             if ($location === 404) {
                 header('HTTP/1.0 404 Not Found');
             } else {
-                header("Location: " . Config::$URL . $location);
+              echo "<script>location.href = '" . base_url($location) . "'</script>";
             }
             exit();
+        }else{
+          echo "<script>location.href = '" . base_url() . "'</script>";
         }
     }
 }
