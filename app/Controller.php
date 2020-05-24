@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\Config;
 use eftec\bladeone\BladeOne;
 
 class Controller

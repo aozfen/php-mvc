@@ -13,7 +13,7 @@ class Config {
     static $DB_PASSWORD  = 'root';
 
     static $LIBRARIES    = [
-        'blade' => 'blade/BladeOne.php',
-        'medoo' => 'medoo/class.medoo.php',
+        'blade' => 'Blade/BladeOne.php',
+        'medoo' => 'Medoo/class.medoo.php',
     ];
 }
