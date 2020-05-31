@@ -14,6 +14,7 @@ class User extends Model
   public $username = "";
   public $password = "";
 
+  /* Example DB and Login */
   public function login()
   {
     if(empty($this->username)) return ["statu" => false, "msg" => "Kullanıcı adı boş kalamaz"];
